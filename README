@@ -1,0 +1,13 @@
+Caravan is a typesafe implementation of the ZeroMQ(http://www.zeromq.org/) Socket Library.
+
+RUNNING:
+1. Download the repository.
+2. At the command line, type 'make all'
+3. Start the OCaml toplevel with 'ocaml zmq.cma'
+
+The API is available through the ZMQ module.
+
+NOTES:
+- Even though OCaml takes advantage of 64-bit integers on suitable machines, ZeroMQ's integer socket options might only be as wide as 32-bits.  You will notice that integer values exceeding the 32-bit maximum on such machines will be rounded down to 2^32.  This will not occur with Int64 options.
+
+- This installation has not yet been tested on many machines, and a more rigorous build system is forthcoming.  As it is, however, the make file is quite simple and you may be quick to repair any inconsistencies.
