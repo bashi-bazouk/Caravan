@@ -1,4 +1,4 @@
-Caravan is a typesafe implementation of the ZeroMQ(http://www.zeromq.org/) Socket Library.
+Caravan is a typesafe implementation of the ZeroMQ Socket Library (http://www.zeromq.org/).
 
 RUNNING:
 1. Download the repository.
