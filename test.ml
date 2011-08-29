@@ -17,7 +17,6 @@ type opts =
       val_reconnect_interval : int;
       val_reconnect_ivl_max : int;
       val_backlog : int;
-      val_maxmsgsize : int64;
       val_swap : int64;
       val_rate : int64;
       val_recovery_ivl : int64;
@@ -38,8 +37,6 @@ let get_options () =
   print_endline ("Maximum Reconnect Interval: "^(string_of_int val_reconnect_ivl_max));
   let val_backlog = get backlog in
   print_endline ("Backlog: "^(string_of_int val_backlog));
-  let val_maxmsgsize = get maxmsgsize in
-  print_endline ("Maximum Message Size: "^(Int64.to_string val_maxmsgsize));
   let val_swap = get swap in
   print_endline ("Disk Offload Size: "^(Int64.to_string val_swap));
   let val_rate = get rate in
@@ -62,7 +59,6 @@ let get_options () =
     val_reconnect_interval = val_reconnect_interval;
     val_reconnect_ivl_max = val_reconnect_ivl_max;
     val_backlog = val_backlog;
-    val_maxmsgsize = val_maxmsgsize;
     val_swap = val_swap;
     val_rate = val_rate;
     val_recovery_ivl = val_recovery_ivl;
@@ -83,9 +79,6 @@ let change_options o =
   set reconnect_ivl_max (o.val_reconnect_ivl_max+1);
   print_endline ("Incrementing backlog.");
   set backlog (o.val_backlog+1);
-  print_endline ("Incrementing maximum message size.");
-  let succ = Int64.succ in
-  set maxmsgsize (succ o.val_maxmsgsize);
   print_endline ("Incrementing disk offload size.");
   set swap (succ o.val_swap);
   print_endline ("Incrementing multicast data rate.");
@@ -112,9 +105,6 @@ let maximize_options () =
   set reconnect_ivl_max (max_int);
   print_endline ("Maximizing backlog.");
   set backlog (max_int);
-  print_endline ("Maximizing maximum message size.");
-  let max = Int64.max_int in
-  set maxmsgsize (max);
   print_endline ("Maximizing disk offload size.");
   set swap (max);
   print_endline ("Maximizing multicast data rate.");
