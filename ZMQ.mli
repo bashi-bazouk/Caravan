@@ -27,12 +27,10 @@ val send : ?no_block:bool -> ?send_more:bool -> socket -> string -> unit
 val recv : ?no_block:bool -> socket -> string
 
 (* OPTION MANIPULATIONS *)
-val socket_type : socket_type socket_option
 val linger : int socket_option
 val reconnect_ivl : int socket_option
 val reconnect_ivl_max : int socket_option
 val backlog : int socket_option
-val maxmsgsize : int64 socket_option
 val swap : int64 socket_option
 val rate : int64 socket_option
 val recovery_ivl : int64 socket_option
