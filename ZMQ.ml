@@ -114,8 +114,6 @@ let no_set_opt () : socket -> 'a -> unit = failwith "This option cannot be set."
 
 
 
-let socket_type: socket_type socket_option =
-  (getsockopt' TYPE, no_set_opt)
 let linger: int socket_option =
   (getsockopt' LINGER, setsockopt' LINGER)
 let reconnect_ivl: int socket_option =
