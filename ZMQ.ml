@@ -46,7 +46,6 @@ type scalar_socket_option =
   | RECONNECT_IVL_MAX
   | BACKLOG
   (* Int64 options *)
-  | MAXMSGSIZE
   | SWAP
   | RATE
   | RECOVERY_IVL
@@ -60,14 +59,8 @@ type scalar_socket_option =
   | UNSUBSCRIBE
   (* Boolean options *)
   | MCAST_LOOP
-  | RCVMORE
-  (* Scalar Type options *)
-  | TYPE
-  | EVENTS
   (* Boolean Array option *)
   | AFFINITY
-  (* Pointer option *)
-  | FD
 
 type 'a socket_option = (unit -> socket -> 'a) * (unit -> socket -> 'a -> unit)
 
@@ -131,8 +124,6 @@ let reconnect_ivl_max: int socket_option =
   (getsockopt' RECONNECT_IVL_MAX, setsockopt' RECONNECT_IVL_MAX)
 let backlog: int socket_option =
   (getsockopt' BACKLOG, setsockopt' BACKLOG)
-let maxmsgsize: int64 socket_option =
-  (getsockopt' MAXMSGSIZE, setsockopt' MAXMSGSIZE)
 let swap: int64 socket_option =
   (getsockopt' SWAP, setsockopt' SWAP)
 let rate: int64 socket_option =
@@ -143,8 +134,6 @@ let recovery_ivl_msec: int64 socket_option =
   (getsockopt' RECOVERY_IVL_MSEC, setsockopt' RECOVERY_IVL_MSEC)
 let mcast_loop: bool socket_option =
   (getsockopt' MCAST_LOOP, setsockopt' MCAST_LOOP)
-let rcvmore: bool socket_option =
-  (getsockopt' RCVMORE, no_set_opt)
 let hwm: int64 socket_option =
   (getsockopt' HWM, set_uint64 HWM)
 let sndbuf: int64 socket_option =
@@ -159,10 +148,6 @@ let unsubscribe: string socket_option =
   (no_get_opt, setsockopt' UNSUBSCRIBE)
 let affinity: bool array socket_option =
   (getsockopt' AFFINITY, setsockopt_affinity)
-let events: event_state socket_option =
-  (getsockopt' EVENTS, no_set_opt)
-let fd: file_descriptor socket_option =
-  (getsockopt' FD, no_set_opt)
 
 let getsockopt (sock: socket) (option: 'a socket_option): 'a =
   (fst option) () sock

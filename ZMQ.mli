@@ -38,7 +38,6 @@ val rate : int64 socket_option
 val recovery_ivl : int64 socket_option
 val recovery_ivl_msec : int64 socket_option
 val mcast_loop : bool socket_option
-val rcvmore : bool socket_option
 val hwm : int64 socket_option
 val affinity : bool array socket_option
 val sndbuf : int64 socket_option
@@ -46,8 +45,6 @@ val rcvbuf : int64 socket_option
 val identity : string option socket_option
 val subscribe : string socket_option
 val unsubscribe : string socket_option
-val events : event_state socket_option
-val fd : file_descriptor socket_option
 
 val getsockopt : socket -> 'a socket_option -> 'a
 val setsockopt : socket -> 'a socket_option -> 'a -> unit

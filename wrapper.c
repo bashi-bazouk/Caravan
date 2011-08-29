@@ -342,7 +342,6 @@ TYPEMAP(option_name) = {
   ZMQ_RECONNECT_IVL,
   ZMQ_RECONNECT_IVL_MAX,
   ZMQ_BACKLOG,
-  ZMQ_MAXMSGSIZE,
   ZMQ_SWAP,
   ZMQ_RATE,
   ZMQ_RECOVERY_IVL,
@@ -354,11 +353,7 @@ TYPEMAP(option_name) = {
   ZMQ_SUBSCRIBE,
   ZMQ_UNSUBSCRIBE,
   ZMQ_MCAST_LOOP,
-  ZMQ_RCVMORE,
-  ZMQ_TYPE,
-  ZMQ_EVENTS,
   ZMQ_AFFINITY,
-  ZMQ_FD
 };
 
 static size_t const map_option_len[] = {
@@ -366,7 +361,6 @@ static size_t const map_option_len[] = {
   sizeof (int),       //   ZMQ_RECONNECT_IVL
   sizeof (int),       //   ZMQ_RECONNECT_IVL_MAX
   sizeof (int),       //   ZMQ_BACKLOG
-  sizeof (int64),     //   ZMQ_MAXMSGSIZE
   sizeof (int64),     //   ZMQ_SWAP
   sizeof (int64),     //   ZMQ_RATE
   sizeof (int64),     //   ZMQ_RECOVERY_IVL
@@ -378,11 +372,7 @@ static size_t const map_option_len[] = {
   -1,                 //   ZMQ_SUBSCRIBE
   -1,                 //   ZMQ_UNSUBSCRIBE
   sizeof (int64),     //   ZMQ_MCAST_LOOP
-  sizeof (int64),     //   ZMQ_RCVMORE
-  sizeof (int),       //   ZMQ_TYPE
-  sizeof (uint32),    //   ZMQ_EVENTS
   sizeof (uint64),    //   ZMQ_AFFINITY
-  sizeof(void *)      //   ZMQ_FD
 };
 
 CAMLprim value wrap_getsockopt(value caml_socket, value caml_option) {
@@ -407,7 +397,6 @@ CAMLprim value wrap_getsockopt(value caml_socket, value caml_option) {
       int val = *((int*)option_value);
       CAMLreturn(Val_int(val));
     }
-    case ZMQ_MAXMSGSIZE:         //int64 <-> int64
     case ZMQ_SWAP:               //int64 <-> int64
     case ZMQ_RATE:               //int64 <-> int64
     case ZMQ_RECOVERY_IVL:       //int64 <-> int64
@@ -433,44 +422,6 @@ CAMLprim value wrap_getsockopt(value caml_socket, value caml_option) {
       }
     }
     case ZMQ_MCAST_LOOP:        //bool <-> int64
-    case ZMQ_RCVMORE: {         //bool <-> int64
-      int64 val = *((int64*)option_value);
-      if(val) {
-	CAMLreturn(Val_true);
-      }else{
-	CAMLreturn(Val_false);
-      }
-    }
-    case ZMQ_TYPE : {           //socket_type <-> int
-      int val = *((int64*)option_value);
-      switch(val) {
-      case ZMQ_REQ: CAMLreturn(Int_val(0));
-      case ZMQ_REP: CAMLreturn(Int_val(1));
-      case ZMQ_XREQ: CAMLreturn(Int_val(2));
-      case ZMQ_XREP: CAMLreturn(Int_val(3));
-      case ZMQ_PUB: CAMLreturn(Int_val(4));
-      case ZMQ_SUB: CAMLreturn(Int_val(5));
-      case ZMQ_PUSH: CAMLreturn(Int_val(6));
-      case ZMQ_PULL: CAMLreturn(Int_val(7));
-      case ZMQ_PAIR: CAMLreturn(Int_val(8));
-      }
-    }
-    case ZMQ_EVENTS: {          //event_state <-> uint32
-      uint32 val = *((uint32*)option_value);
-      if((val & ZMQ_POLLIN)==ZMQ_POLLIN){
-	if((val & ZMQ_POLLOUT)==ZMQ_POLLOUT){
-	  CAMLreturn(Val_int(3));
-	}else{
-	  CAMLreturn(Val_int(1));
-	}
-      }else{
-	if((val & ZMQ_POLLOUT)==ZMQ_POLLOUT){
-	  CAMLreturn(Val_int(2));
-	}else{
-	  CAMLreturn(Val_int(0));
-	}
-      }
-    }
     case ZMQ_AFFINITY: {        //bool array <-> uint64
       uint64 val = *((uint64*)option_value);
       uint64 mask;
@@ -485,10 +436,6 @@ CAMLprim value wrap_getsockopt(value caml_socket, value caml_option) {
 	}
       }
       CAMLreturn(caml_val);
-    }
-    case ZMQ_FD: {              //file_descriptor <-> void*
-      void* val = (void*)option_value;
-      CAMLreturn((value)val);
     }
     default:
       RAISE("ERR","This should not be happening.");
@@ -543,7 +490,6 @@ CAMLprim value wrap_setsockopt(value caml_socket, value caml_option, value caml_
     rc = zmq_setsockopt(socket, name, &int_val, sizeof(int_val));
     break;
   }
-  case ZMQ_MAXMSGSIZE:         //int64 <-> int64
   case ZMQ_SWAP:               //int64 <-> int64
   case ZMQ_RATE:               //int64 <-> int64
   case ZMQ_RECOVERY_IVL:       //int64 <-> int64
@@ -574,11 +520,6 @@ CAMLprim value wrap_setsockopt(value caml_socket, value caml_option, value caml_
     break;
   }
   case ZMQ_MCAST_LOOP:         //bool <-> int64
-  case ZMQ_RCVMORE: {          //bool <-> int64
-    int64 val = Bool_val(caml_val) ? 1L : 0L;
-    rc = zmq_setsockopt(socket, name, (void *)&val, sizeof(val));
-    break;
-  }
   case ZMQ_AFFINITY: {         //bool array <-> uint64
     uint64 val = 0L;
     int i;
@@ -588,11 +529,6 @@ CAMLprim value wrap_setsockopt(value caml_socket, value caml_option, value caml_
       }
     }
     rc = zmq_setsockopt(socket, name, (void *)&val, sizeof(val));
-    break;
-  }
-  case ZMQ_FD: {               //file_descriptor <-> void*
-    void *val= (void*)caml_val;
-    rc = zmq_setsockopt(socket, name, val, sizeof(val));
     break;
   }
   default:
