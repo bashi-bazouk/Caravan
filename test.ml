@@ -48,7 +48,6 @@ let get_options () =
     ("Multicast Recovery Interval (milliseconds): "^(Int64.to_string val_recovery_ivl_msec));
   let val_mcast_loop = get mcast_loop in
   print_endline ("Allows Multicast Loopback: "^(string_of_bool val_mcast_loop));
-  print_endline ("Will Receive More: "^(string_of_bool (getsockopt sock rcvmore)));
   let val_hwm = get hwm in
   print_endline ("High Water Mark: "^(Int64.to_string val_hwm));
   let val_sndbuf = get sndbuf in
