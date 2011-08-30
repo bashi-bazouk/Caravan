@@ -105,19 +105,19 @@ let maximize_options () =
   print_endline ("Maximizing backlog.");
   set backlog (max_int);
   print_endline ("Maximizing disk offload size.");
-  set swap (max);
+  set swap (Int64.max);
   print_endline ("Maximizing multicast data rate.");
-  set rate (max);
+  set rate (Int64.max);
   print_endline ("Maximizing multicast recovery interval.");
-  set recovery_ivl (max);
+  set recovery_ivl (Int64.max);
   print_endline ("Maximizing multicast recovery interval (msec).");
-  set recovery_ivl_msec (max);
+  set recovery_ivl_msec (Int64.max);
   print_endline ("Maximizing high water mark.");
-  set hwm (max);
+  set hwm (Int64.max);
   print_endline ("Maximizing kernel transmit buffer size.");
-  set sndbuf (max);
+  set sndbuf (Int64.max);
   print_endline ("Maximizing kernel receive buffer size.\n");
-  set rcvbuf (max);
+  set rcvbuf (Int64.max);
   get_options ()
 
 let close () = 
