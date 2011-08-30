@@ -79,19 +79,19 @@ let change_options o =
   print_endline ("Incrementing backlog.");
   set backlog (o.val_backlog+1);
   print_endline ("Incrementing disk offload size.");
-  set swap (succ o.val_swap);
+  set swap (Int64.succ o.val_swap);
   print_endline ("Incrementing multicast data rate.");
-  set rate (succ o.val_rate);
+  set rate (Int64.succ o.val_rate);
   print_endline ("Incrementing multicast recovery interval (milliseconds).");
-  set recovery_ivl_msec (succ o.val_recovery_ivl_msec);
+  set recovery_ivl_msec (Int64.succ o.val_recovery_ivl_msec);
   print_endline ("Switching multicast loopback.");
   set mcast_loop (not o.val_mcast_loop);
   print_endline ("Incrementing high water mark.");
-  set hwm (succ o.val_hwm);
+  set hwm (Int64.succ o.val_hwm);
   print_endline ("Incrementing kernel transmit buffer size.");
-  set sndbuf (succ o.val_sndbuf);
+  set sndbuf (Int64.succ o.val_sndbuf);
   print_endline ("Incrementing kernel receive buffer size.\n");
-  set rcvbuf (succ o.val_rcvbuf);
+  set rcvbuf (Int64.succ o.val_rcvbuf);
   get_options ()
 
 let maximize_options () = 
