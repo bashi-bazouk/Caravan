@@ -32,7 +32,7 @@ install: ZMQ.cmi ZMQ.cma  ZMQ.cmo dll_wrapper_stubs.so
 all: ZMQ.cma test
 
 clean:
-	rm -f *.[oa] *.so *.cm[ixoa] *.cmxa
+	rm -f *.[oa] *.so *.cm[ixoa] *.cmxa *.a
 	-rm test
 
 .PHONY: clean update-uint test all
