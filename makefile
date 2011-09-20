@@ -1,3 +1,5 @@
+ocaml_lib_folder = /opt/local/lib/ocaml
+
 # Make the wrapper.
 wrapper.o: wrapper.c
 	ocamlc -c $<
@@ -25,7 +27,7 @@ test: test.ml ZMQ.cmo lib_wrapper_stubs.so
             -cclib -lzmq
 
 install: ZMQ.cmi ZMQ.cma  ZMQ.cmo dll_wrapper_stubs.so
-	cp ZMQ.cmi ZMQ.cma  ZMQ.cmo dll_wrapper_stubs.so /opt/local/lib/ocaml
+	cp ZMQ.cmi ZMQ.cma  ZMQ.cmo dll_wrapper_stubs.so $(ocaml_lib_folder)
 
 all: ZMQ.cma test
 

@@ -515,20 +515,16 @@ CAMLprim value wrap_setsockopt(value caml_socket, value caml_option, value caml_
     break;
   case ZMQ_SUBSCRIBE: {        //string <-> string
     char *val = String_val(caml_val);
-    printf("Subscribing to \"%s\" of size %d.\n",val,sizeof(val));
-    if(sizeof(val)==8){
-      rc = zmq_setsockopt(socket, name, (void *)NULL, 0);
-      break;
-    }
-    rc = zmq_setsockopt(socket, name, (void *)val, sizeof(val)-8);
+    rc = zmq_setsockopt(socket, name, (void *)val, strlen(val));
     break;
   }
   case ZMQ_UNSUBSCRIBE: {      //string <-> string
     char *val = String_val(caml_val);
-    rc = zmq_setsockopt(socket, name, (void *)val, sizeof(val));
+    rc = zmq_setsockopt(socket, name, (void *)val, strlen(val));
     break;
   }
   case ZMQ_MCAST_LOOP:         //bool <-> int64
+    break;
   case ZMQ_AFFINITY: {         //bool array <-> uint64
     uint64 val = 0L;
     int i;
