@@ -65,7 +65,7 @@ type scalar_socket_option =
 type 'a socket_option = (unit -> socket -> 'a) * (unit -> socket -> 'a -> unit)
 
 type event_state =
-  | None
+  | Neither
   | PollIn
   | PollOut
   | PollInAndPollOut

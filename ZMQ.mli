@@ -13,7 +13,7 @@ type socket_type =
   | PAIR
 
 type 'a socket_option
-type event_state = None | PollIn | PollOut | PollInAndPollOut
+type event_state = Neither | PollIn | PollOut | PollInAndPollOut
 
 val version: unit -> int*int*int
 val init: int -> context

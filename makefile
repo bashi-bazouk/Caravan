@@ -24,6 +24,9 @@ test: test.ml ZMQ.cmo lib_wrapper_stubs.so
             -ccopt -L/usr/local/lib  \
             -cclib -lzmq
 
+install: ZMQ.cmi ZMQ.cma  ZMQ.cmo dll_wrapper_stubs.so
+	cp ZMQ.cmi ZMQ.cma  ZMQ.cmo dll_wrapper_stubs.so /opt/local/lib/ocaml
+
 all: ZMQ.cma test
 
 clean:
